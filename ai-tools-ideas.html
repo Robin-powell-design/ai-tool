@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Tools — Design & Product Proposals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:     #6B2FFA;
+      --purple-mid: #8B5CF6;
+      --cyan:       #00D4C8;
+      --bg:         #f5f4ff;
+      --white:      #ffffff;
+      --surface:    #ffffff;
+      --border:     #e8e4ff;
+      --text:       #0f0a1e;
+      --body:       #3d3558;
+      --muted:      #8b82a7;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--purple);
+      padding: 0 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 14px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-logo span { color: var(--cyan); }
+
+    .nav-meta {
+      font-size: 12px;
+      color: rgba(255,255,255,0.55);
+      font-weight: 500;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--purple) 0%, #4c1db8 60%, #2d0f8a 100%);
+      padding: 80px 40px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -80px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(0,212,200,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 360px; height: 360px;
+      background: radial-gradient(circle, rgba(139,92,246,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      background: rgba(0,212,200,0.12);
+      border: 1px solid rgba(0,212,200,0.25);
+      border-radius: 100px;
+      padding: 6px 16px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 900;
+      color: white;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      color: var(--cyan);
+    }
+
+    .hero p {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.65);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    .meta-pills {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .meta-pill {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 6px 16px;
+    }
+
+    /* ── GRID ── */
+    .grid-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 40px 80px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    @media (max-width: 740px) {
+      .grid { grid-template-columns: 1fr; }
+      .hero { padding: 56px 20px 64px; }
+      .grid-wrap { padding: 40px 20px 60px; }
+      nav { padding: 0 20px; }
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: 0 12px 40px rgba(107,47,250,0.1);
+      transform: translateY(-3px);
+      border-color: rgba(107,47,250,0.25);
+    }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    /* ── ICON BADGE ── */
+    .icon-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 20px;
+    }
+
+    .card[data-accent="1"] .icon-badge { background: rgba(107,47,250,0.1); }
+    .card[data-accent="2"] .icon-badge { background: rgba(0,212,200,0.1); }
+    .card[data-accent="3"] .icon-badge { background: rgba(255,171,0,0.1); }
+    .card[data-accent="4"] .icon-badge { background: rgba(239,68,68,0.1); }
+
+    .card-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 2px;
+    }
+
+    /* ── CARD TITLE ── */
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 750;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    /* ── DIVIDER ── */
+    .card-divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .section-label {
+      font-size: 9.5px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .card[data-accent="1"] .section-label { color: var(--purple); }
+    .card[data-accent="2"] .section-label { color: #00a89f; }
+    .card[data-accent="3"] .section-label { color: #c98000; }
+    .card[data-accent="4"] .section-label { color: #dc2626; }
+
+    .section p {
+      font-size: 0.855rem;
+      color: var(--body);
+      line-height: 1.65;
+      font-weight: 400;
+    }
+
+    /* ── IMPACT TAGS ── */
+    .impact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 2px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      border-radius: 100px;
+      padding: 4px 12px;
+      border: 1.5px solid;
+    }
+
+    .card[data-accent="1"] .tag { color: var(--purple); border-color: rgba(107,47,250,0.2); background: rgba(107,47,250,0.06); }
+    .card[data-accent="2"] .tag { color: #007a75; border-color: rgba(0,212,200,0.25); background: rgba(0,212,200,0.07); }
+    .card[data-accent="3"] .tag { color: #a06800; border-color: rgba(255,171,0,0.3); background: rgba(255,171,0,0.08); }
+    .card[data-accent="4"] .tag { color: #b91c1c; border-color: rgba(239,68,68,0.2); background: rgba(239,68,68,0.06); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--purple);
+      text-align: center;
+      padding: 28px 40px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      font-weight: 500;
+    }
+
+    footer strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">DESIGN<span>AI</span></div>
+    <div class="nav-meta">Internal Proposals · 2025</div>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-eyebrow">AI Tooling · Design & Product</div>
+    <h1>Tools we could build<br/>with <em>AI</em></h1>
+    <p>Four proposals for internal AI tools that reduce friction, improve quality, and surface better product decisions — built around real problems in the current workflow.</p>
+    <div class="meta-pills">
+      <span class="meta-pill">Design & Product</span>
+      <span class="meta-pill">4 Proposals</span>
+      <span class="meta-pill">Rob Powell</span>
+    </div>
+  </div>
+
+  <div class="grid-wrap">
+    <p class="section-title">Proposed Tools</p>
+
+    <div class="grid">
+
+      <!-- 1 -->
+      <div class="card" data-accent="1">
+        <div class="card-top">
+          <div class="icon-badge">💬</div>
+          <div class="card-num">01 — Feedback</div>
+        </div>
+        <div class="card-title">Design Feedback Synthesiser</div>
+        <div class="card-divider"></div>
+
+        <div class="section">
+          <span class="section-label">Problem</span>
+          <p>Feedback is slow and uncomfortable. Stakeholders rarely give honest opinions in group settings, and it's hard to find time for structured reviews. Things get missed.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Solution</span>
+          <p>A link-based tool that anyone in the company can open — anonymously if preferred — to leave structured design feedback. No meetings required.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">How it works</span>
+          <p>Link shared via Slack → reviewer opens design in browser → guided by sliders and prompted questions → all responses collected and synthesised in one place for the design team to action.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Impact</span>
+          <div class="impact-row">
+            <span class="tag">Faster reviews</span>
+            <span class="tag">Less missed feedback</span>
+            <span class="tag">Documented decisions</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="card" data-accent="2">
+        <div class="card-top">
+          <div class="icon-badge">⚙️</div>
+          <div class="card-num">02 — Handoff</div>
+        </div>
+        <div class="card-title">Design-to-Dev Spec Generator</div>
+        <div class="card-divider"></div>
+
+        <div class="section">
+          <span class="section-label">Problem</span>
+          <p>Dev handoff is inconsistent and eats up time. Specs are missing, incomplete, or buried in Figma comments — leading to back-and-forth that slows shipping.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Solution</span>
+          <p>A tool that takes a Figma page and generates a full, clean spec document automatically — ready for devs to work from without chasing designers.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">How it works</span>
+          <p>Upload Figma page → AI generates complete specs covering spacing, component states, interactions, edge cases, and accessibility notes. Exportable and shareable.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Impact</span>
+          <div class="impact-row">
+            <span class="tag">Faster handoff</span>
+            <span class="tag">Fewer dev questions</span>
+            <span class="tag">Consistent output</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="card" data-accent="3">
+        <div class="card-top">
+          <div class="icon-badge">🔍</div>
+          <div class="card-num">03 — Quality</div>
+        </div>
+        <div class="card-title">AI-Powered Design QA Checker</div>
+        <div class="card-divider"></div>
+
+        <div class="section">
+          <span class="section-label">Problem</span>
+          <p>Small UX issues consistently slip through — inconsistent spacing, accessibility failures, off-brand components. Manual QA is slow and still misses things.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Solution</span>
+          <p>AI scans designs before they leave the design phase and flags issues automatically, acting as a first-pass QA layer that catches the low-hanging problems.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">How it works</span>
+          <p>Connect to Figma → AI audits layouts for spacing consistency, colour contrast, missing states, and component misuse → returns a prioritised issues list with context.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Impact</span>
+          <div class="impact-row">
+            <span class="tag">Higher quality baseline</span>
+            <span class="tag">Fewer QA cycles</span>
+            <span class="tag">Accessibility coverage</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="card" data-accent="4">
+        <div class="card-top">
+          <div class="icon-badge">📊</div>
+          <div class="card-num">04 — Insight</div>
+        </div>
+        <div class="card-title">Support Ticket → Product Insight Engine</div>
+        <div class="card-divider"></div>
+
+        <div class="section">
+          <span class="section-label">Problem</span>
+          <p>Support tickets are full of product intelligence that rarely reaches design or product. Patterns exist but no one has the bandwidth to read thousands of tickets.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Solution</span>
+          <p>AI continuously scans all support tickets and surfaces recurring UX issues, broken flows, and feature signals — mapped directly to product and design opportunities.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">How it works</span>
+          <p>Connect to support platform → AI clusters and tags tickets by theme → extracts UX issues, broken flows, and feature requests → outputs a live dashboard of prioritised product insights.</p>
+        </div>
+
+        <div class="section">
+          <span class="section-label">Impact</span>
+          <div class="impact-row">
+            <span class="tag">Design from real pain</span>
+            <span class="tag">Faster triage</span>
+            <span class="tag">Untapped data surfaced</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>
+    <strong>Rob Powell</strong> · Prepared for internal review · All proposals subject to scoping and prioritisation
+  </footer>
+
+</body>
+</html>
